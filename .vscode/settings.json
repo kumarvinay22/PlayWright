@@ -1,0 +1,9 @@
+{
+  "cucumberautocomplete.steps": [
+    "./step-definitions/**/*.ts" // Path to your step definitions
+  ],
+  "cucumberautocomplete.syncfeatures": "./features/**/*.feature", // Path to your feature files
+  "cucumberautocomplete.strictGherkinCompletion": true,
+  "cucumberautocomplete.smartSnippets": true,
+  "cucumberautocomplete.ignorecase": true // Optional: Ignore case sensitivity
+}

@@ -7,7 +7,7 @@ const parallelExecution = parseInt(process.env.PARALLEL || '2', 10); // Default 
 const config = {
   default: {
     require: [
-      './step-definitions/**/*.ts', // Load all step definitions
+      './step-definitions/**/*.ts', // Ensure this path matches the location of your step definitions
       './step-definitions/hooks.ts', // Load hooks
     ],
     requireModule: ['ts-node/register'], // Enable TypeScript support
@@ -23,16 +23,15 @@ const config = {
   },
 };
 
+const sauceUsername = process.env.SAUCE_USERNAME;
+const sauceAccessKey = process.env.SAUCE_ACCESS_KEY;
+
 if (execution === 'cloud') {
   console.log('[INFO]: Running tests on cloud...');
-  const sauceUsername = process.env.SAUCE_USERNAME;
-  const sauceAccessKey = process.env.SAUCE_ACCESS_KEY;
-
   if (!sauceUsername || !sauceAccessKey) {
     console.error('[ERROR]: Sauce Labs credentials are missing. Set SAUCE_USERNAME and SAUCE_ACCESS_KEY.');
     process.exit(1);
   }
-
   // Add Sauce Labs credentials to world parameters
   config.default.worldParameters.sauce = {
     username: sauceUsername,
