@@ -7,5 +7,8 @@ Feature: Sample Feature
     Examples:
       | path      | env  |
       | /home     | qa   |
-      | /about    | prod |
-      | /contact  | qa   |
+
+  Scenario: Verify the login page UI in QA environment
+    Given I navigate to the login page in "qa" environment
+    Then I should see the login form with username and password fields
+

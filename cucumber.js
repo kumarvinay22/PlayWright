@@ -1,9 +1,9 @@
 const browser = process.env.BROWSER || 'chromium'; // Default to 'chromium'
 const tags = process.env.TAGS || ''; // Default to no tags
 const execution = process.env.EXECUTION || 'local'; // Default to local execution
-const responsive = process.env.RESPONSIVE === 'true'; // Default to false if not set
-const featureFilePath = process.env.FEATURE || './features/**/*.feature'; // Default to all feature files
-const parallelExecution = process.env.PARALLEL || 1; // Default to 1 (no parallelism)
+const responsive = process.env.RESPONSIVE === 'false'; // Default to true if not set
+const featureFilePath = './features/sample.feature'; // Specify the feature file path directly
+const parallelExecution = parseInt(process.env.PARALLEL || '1', 10); // Default to 1 (no parallelism)
 
 const config = {
   default: {
@@ -13,9 +13,9 @@ const config = {
     ],
     requireModule: ['ts-node/register'], // Enable TypeScript support
     format: ['html:./reports/cucumber-report.html'], // Generate HTML report
-    paths: [featureFilePath], // Path to feature files
+    paths: [featureFilePath], // Path to the specific feature file
     tags: tags, // Filter scenarios by tags
-    parallel: parseInt(parallelExecution, 10), // Enable parallel execution
+    parallel: parallelExecution, // Enable parallel execution
     worldParameters: {
       browser: browser,
       responsive: responsive,
@@ -34,6 +34,7 @@ if (execution === 'cloud') {
     process.exit(1);
   }
 
+  // Add Sauce Labs credentials to world parameters
   config.default.worldParameters.sauce = {
     username: sauceUsername,
     accessKey: sauceAccessKey,

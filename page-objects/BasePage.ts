@@ -11,7 +11,7 @@ export class BasePage {
     try {
       console.log(`[LOG]: Navigating to ${url}`);
       await this.page.goto(url, { waitUntil: 'load', timeout: 30000 });
-    } catch (error) {
+    } catch (error: any) { // Explicitly type error as 'any'
       console.error(`[ERROR]: Failed to navigate to ${url}`);
       if (error.message.includes('net::ERR_NAME_NOT_RESOLVED')) {
         console.error(`[ERROR]: The domain name could not be resolved. Please check the URL: ${url}`);
