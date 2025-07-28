@@ -1,9 +1,8 @@
-const browser = process.env.BROWSER || 'chromium'; // Default to 'chromium'
-const tags = process.env.TAGS || ''; // Default to no tags
+const tags = process.env.TAGS || '@QA'; // Default to no tags
 const execution = process.env.EXECUTION || 'local'; // Default to local execution
-const responsive = process.env.RESPONSIVE === 'false'; // Default to true if not set
+const responsive = process.env.RESPONSIVE === 'true'; // Default to false if not set
 const featureFilePath = './features/sample.feature'; // Specify the feature file path directly
-const parallelExecution = parseInt(process.env.PARALLEL || '1', 10); // Default to 1 (no parallelism)
+const parallelExecution = parseInt(process.env.PARALLEL || '2', 10); // Default to 1 (no parallelism)
 
 const config = {
   default: {
@@ -17,8 +16,8 @@ const config = {
     tags: tags, // Filter scenarios by tags
     parallel: parallelExecution, // Enable parallel execution
     worldParameters: {
-      browser: browser,
       responsive: responsive,
+      execution: execution,
     },
     publishQuiet: true, // Disable publishing to the Cucumber cloud
   },
@@ -43,6 +42,7 @@ if (execution === 'cloud') {
   console.log('[INFO]: Running tests locally...');
 }
 
+// Log the final configuration
 console.log(`[INFO]: Configuration:`, JSON.stringify(config, null, 2));
 module.exports = config;
 

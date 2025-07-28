@@ -1,32 +1,32 @@
 import { chromium, firefox, webkit, Browser, BrowserContext } from '@playwright/test';
 
 export class BrowserFactory {
-  private static async getBrowser(browserType: string): Promise<Browser> {
-    switch (browserType) {
-      case 'chromium':
-        return await chromium.launch();
-      case 'firefox':
-        return await firefox.launch();
-      case 'webkit':
-        return await webkit.launch();
-      default:
-        throw new Error(`[ERROR]: Unsupported browser type: ${browserType}`);
-    }
-  }
+  static async initializeBrowser(parameters: any): Promise<{ browserInstance: Browser; browserContext: BrowserContext }> {
+    const browserType = parameters.browser || 'webkit'; // Default to 'chromium'
+    const responsive = parameters.responsive || false; // Default to desktop view
+    let browser: Browser;
 
-  public static async createBrowserContext(
-    browserType: string,
-    responsive: boolean
-  ): Promise<BrowserContext> {
-    const browser = await this.getBrowser(browserType);
-
-    if (responsive) {
-      return await browser.newContext({
-        viewport: { width: 375, height: 812 }, // Example: iPhone X dimensions
-        isMobile: true,
-      });
+    console.log(`[INFO]: Launching browser: ${browserType}`);
+    if (browserType === 'chromium') {
+      browser = await chromium.launch({ headless: false });
+    } else if (browserType === 'firefox') {
+      browser = await firefox.launch({ headless: false });
+    } else if (browserType === 'webkit') {
+      browser = await webkit.launch({ headless: false });
     } else {
-      return await browser.newContext(); // Default desktop context
+      throw new Error(`[ERROR]: Unsupported browser type: ${browserType}`);
     }
+
+    console.log(`[INFO]: Creating browser context. Responsive: ${responsive}`);
+    const context = responsive
+      ? await browser.newContext({
+          viewport: { width: 375, height: 812 }, // Example: iPhone X dimensions
+          isMobile: true,
+        })
+      : await browser.newContext(); // Default desktop context
+
+    console.log('[INFO]: Browser and context launched successfully.');
+    return { browserInstance: browser, browserContext: context };
   }
 }
+

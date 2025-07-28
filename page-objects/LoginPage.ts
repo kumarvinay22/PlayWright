@@ -13,7 +13,7 @@ export class LoginPage {
   async navigateToLoginPage(url: string): Promise<void> {
     try {
       console.log(`[INFO]: Navigating to ${url}`);
-      await this.page.goto(url, { waitUntil: 'load', timeout: 30000 });
+      await this.page.goto(url, {  timeout: 0 });
     } catch (error: any) {
       console.error(`[ERROR]: Navigation failed for URL: ${url}`);
       console.error(`[ERROR DETAILS]:`, error);
